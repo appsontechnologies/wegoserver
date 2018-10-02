@@ -2,10 +2,10 @@
     "development": {
         "database": "wego_db",
         "dialect": "mysql",
-        "host":"appsontechnologies.in",
+        "host":"mysql://mysql:3306/",
         "port":"3306",
         "username": "wego_user",                
-        "password": "wego@123",       
+        "password": "root",       
         "timezone": "+00:00",        
         "secret": "xoIalodZ/nWwWzFinhs=",
         "distance_threshold_for_location_change": 1000,
