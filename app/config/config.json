@@ -3,7 +3,6 @@
         "database": "wego_db",
         "dialect": "mysql",
         "host":"mysql://mysql:3306/",
-        "port":"3306",
         "username": "wego_user",                
         "password": "root",       
         "timezone": "+00:00",        
