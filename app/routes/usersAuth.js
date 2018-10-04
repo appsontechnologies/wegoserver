@@ -17,7 +17,7 @@ module.exports = function(app, passport, models, sequelize ) {
     function(req, res){
         if(req.user!=null) {
            //res.json(req.user.user_id);
-           res.json({"user_id":req.user.user_id,"success" : true, msg: "User Registration Successfully"});
+           res.json({"user_id":req.user.user_id,"success":true,msg:"User Registration Successfully"});
            return;
         } 
         else  {
@@ -28,7 +28,9 @@ module.exports = function(app, passport, models, sequelize ) {
 
 
     app.post('/wegoplay/api/users/login', function(req, res, next){
+        //console.log(req);
        var data = {
+            user_id : req.body.user_id,
             lat : req.body.lat,
             long : req.body.long,
             email : req.body.email,
@@ -41,6 +43,15 @@ module.exports = function(app, passport, models, sequelize ) {
             profile_picture_url : req.body.profile_picture_url,
             number:9893066675
         }
+        var menual_data = {
+            user_id : req.body.user_id,
+            lat : req.body.lat,
+            long : req.body.long,
+            login_by: req.body.login_by,
+            fcm_token : req.body.fcm_token,
+            device_type : req.body.device_type
+        }
+        console.log("NormalLogin-->",data);
 
         console.log('Social Uniq id - ',data.social_unique_id);
        // Models.users.create(data).then(function(created){
@@ -56,6 +67,9 @@ module.exports = function(app, passport, models, sequelize ) {
             } if(user!=null) {
                 //res.json(user);
                 res.json({"user":user, "success" : true, msg: "User login Successfully"});
+                Models.users.update(menual_data, {where:{user_id:menual_data.user_id}}).then(function(){
+
+                })
             } else {
                 res.status(400).json({error_msg: "Login failed"});
             }
