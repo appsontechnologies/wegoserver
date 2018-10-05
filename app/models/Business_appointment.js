@@ -1,7 +1,6 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-    //console.log("Business_appointment models create Successfully-->!");
     return sequelize.define('Business_appointment', {
         id: {
             type: DataTypes.INTEGER(50).UNSIGNED,

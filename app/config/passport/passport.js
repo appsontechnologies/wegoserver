@@ -69,8 +69,8 @@ module.exports = function (passport, models, app) {
                             postal_code: req.body.postal_code,
                             credit_card_number: req.body.credit_card_number,
                             name_appears_on_card: req.body.name_appears_on_card,
-                            lat: req.body.lat,
-                            long: req.body.long,
+                            latitude: req.body.lat,
+                            longitude: req.body.long,
                             fcm_token: req.body.fcm_token,
                             date_time: req.body.date_time,
                             device_type: req.body.device_type,
@@ -79,10 +79,12 @@ module.exports = function (passport, models, app) {
 
                         Models.users.create(data).then(function (newUser, created) {
                             var base64Str = req.body.encoded_string;
-                            var path = 'E://Node-Project/wegoServer/upload/';
+                            // var path = 'http://appsontechnologies.in/wegoplay/assets/gallery/';
+                            var path = './upload/';
                             var img = base64ToImage(base64Str, path);
-                            Models.users.update({image_url: path + img.fileName},{where:{user_id:newUser.user_id}})
-                            .then(function(result){
+                            console.log("path----->", path+img.fileName);
+                            Models.users.update({profile_picture_url: path + img.fileName},{where:{user_id:newUser.user_id}})
+                            .then(function(result) {
                             var sports_id = req.body.sports;
                             var sports_ids = [];
                             for (var i = 0; i < sports_id.length; i++) {
@@ -140,45 +142,4 @@ module.exports = function (passport, models, app) {
             });
         }
     ))
-
-
-    //https://medium.com/@tkssharma/authentication-using-passport-js-social-auth-with-node-js-1e1ec7086ded
-
-    //https://code.tutsplus.com/articles/social-authentication-for-nodejs-apps-with-passport--cms-21618
-    passport.use('facebook', new FacebookStrategy({
-        clientID: 244342072939022,
-        clientSecret: '46bac1de6bb90c9a5cf7aec0d49b7457',
-        callbackURL: 'http://localhost:3000/auth/facebook/callback',
-        profileFields: ['id', 'displayName', 'photos', 'email']
-    },
-        function (accessToken, refreshToken, profile, cb, done) {
-            console.log("profile==>", profile);
-            Models.users.findOrCreate({ facebookId: profile.id, name: profile.displayName },
-                function (err, user) {
-                    if (err) {
-                        return done(err);
-                    }
-                    return done(err, user);
-                });
-        }
-    ));
-
-
-    //https://www.djamware.com/post/59a6257180aca768e4d2b132/node-express-passport-facebook-twitter-google-github-login
-    passport.use('google', new GoogleStrategy({
-        clientID: "591307876438-4nmmm817vks785u467lo22kss40kqno2.apps.googleusercontent.com",
-        clientSecret: 'shhh-its-a-secret',
-        callbackURL: 'https://localhost:3000/auth/google/callback'
-    },
-        function (accessToken, refreshToken, profile, done) {
-            console.log("google Call");
-            Models.users.findOrCreate({ user_id: profile.id }, { name: profile.displayName, userid: profile.id },
-                function (err, user) {
-                    return done(err, user);
-                })
-        }
-    ))
 }
-
-//Social Login Link facebook google, linkedIn Twitter
-//https://medium.com/@tkssharma/authentication-using-passport-js-social-auth-with-node-js-1e1ec7086ded

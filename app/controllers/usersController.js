@@ -38,12 +38,8 @@ exports.forgotPassword = function (req, res, models, app) {
             res.status(400).json({ error_msg: "No user found for provided Email Address" });
             return;
         }
-        var generateHash = function (newpassword) {
-            return bCrypt.hashSync(newpassword, bCrypt.genSaltSync(8), null);
-        };
+        
         var newpassword = this.generatePassword();
-        //var encryptedPassword = generateHash(newpassword);
-        //console.log("new password: " + newpassword + " encrypted password: " + encryptedPassword);
         models.users.update({ password: newpassword }, { where: { email: user.email } })
             .then(function () {
                 var smtpTransport = nodemailer.createTransport({
@@ -58,10 +54,8 @@ exports.forgotPassword = function (req, res, models, app) {
                     from: "WeGo-node-server <shailendra@appsontechnologies.in>",
                     to: user.email,
                     subject: "WeGo-node-server",
-                    token: generatePassword(),
-                    html: "Hello " + user.name_name + ", <br /><br />"
-                        + "Please setup  your new password : &nbsp;" + "<b>" + this.generatePassword() + "</b>" + '\n\n' +
-                        "<p>Thank you,<br />WeGo-node-server team.</p>"
+                    html: "Hello " + user.user_name + ", <br /><br />"
+                        + "Please setup  your new password : &nbsp;" + "<b>" + newpassword + "</b>" + '\n\n' + "<p>Thank you,<br />WeGo-node-server team.</p>"
                 }
                 smtpTransport.sendMail(mailOptions, (error, info) => {
                     if (error) {
@@ -126,42 +120,11 @@ exports.updateUserProfile = function (req, res, models, app) {
         res.status(400).json({ error_msg: "user_id not found in body" })
         return;
     }
-    // if(req.body.user_name==undefined || req.body.user_name==null){
-    //     res.status(400).json({error_msg:"user_name not found in body"})
-    //     return;
-    // }
-    // if(req.body.number==undefined || req.body.number==null){
-    //     res.status(400).json({error_msg:"number not found in body"});
-    //     return;
-    // }
-    // if(req.body.email==undefined || req.body.email==null){
-    //     res.status(400).json({error_msg:"email not found in body"});
-    //     return;
-    // }
-    // if(req.body.address==undefined || req.body.address==null){
-    //     res.status(400).json({error_msg:"address not found in body"});
-    //     return;
-    // }
     if (req.body.date_time == undefined || req.body.date_time == null) {
         res.status(400).json({ error_msg: "date_time not found in body" });
         return;
     }
-    // if(req.body.city==undefined || req.body.city==null){
-    //     res.status(400).json({error_msg:"city not found in body"});
-    //     return;
-    // }
-    // if(req.body.country==undefined || req.body.country==null){
-    //     res.status(400).json({error_msg:"country not found in body"});
-    //     return;
-    // }
-    // if(req.body.city==undefined || req.body.city==null){
-    //     res.status(400).json({error_msg:"city not found in body"});
-    //     return;
-    // }
-    // if(req.body.postal_code==undefined || req.body.postal_code==null){
-    //     res.status(400).json({error_msg:"postal_code not found in body"});
-    //     return;
-    // }
+   
     models.users.update({
         user_name: req.body.user_name,
         number: req.body.number,
@@ -174,8 +137,8 @@ exports.updateUserProfile = function (req, res, models, app) {
         country: req.body.country,
         city: req.body.city,
         postal_code: req.body.postal_code,
-        lat: req.body.lat,
-        long: req.body.long,
+        latitude: req.body.lat,
+        longitude: req.body.long,
         name_appears_on_card: req.body.name_appears_on_card,
         expiration: req.body.expiration,
         security_code: req.body.security_code,
@@ -245,31 +208,37 @@ exports.uploadProfilePicture = function (req, res, models, app) {
 
 
 exports.getProfileDetailById = function (req, res, models, app) {
-    var user_id = req.body.user_id;
-    if (user_id == undefined || user_id == null) {
-        res.status(400).json({ error_msg: "user_id not found in body" });
+    if(req.body.user_id==undefined || req.body.user_id==null){
+        res.status(400).json({error_msg:"user_id not found in body"});
         return;
     }
+    var user_id = req.body.user_id;
     
     var game = "SELECT COUNT(game_id) as POSTS FROM game where user_id = "+user_id+"";
     var invitation = "SELECT COUNT(invitation_id) as FRIENDS FROM invitation WHERE sent_user_id = "+user_id+" AND status = 1 ";
-    var user = "select user_name, image_url, address FROM users wher where user_id = "+user_id+"";
-
+    var user = "SELECT user_name, image_url, latitude, longitude, profile_picture_url FROM users wher where user_id = "+user_id+"";
+    var sports = "SELECT sports.sports_id, sports.sports_name, sports.sports_image FROM sports INNER JOIN fav_sports ON sports.sports_id = fav_sports.sports_id INNER JOIN users ON users.user_id = fav_sports.user_id WHERE users.user_id = "+user_id+"";
+    var gallery = "SELECT gallery_url FROM gallery wher WHERE user_id = "+user_id+"";
     models.sequelize.query(game, {type: models.sequelize.QueryTypes.SELECT})
     .then(function(game){
-        models.sequelize.query(invitation, {type: models.sequelize.QueryTypes.SELECT})
+        models.sequelize.query(invitation, {type:models.sequelize.QueryTypes.SELECT})
         .then(function(invitation){
-        models.sequelize.query(user, {type: models.sequelize.QueryTypes.SELECT}).then(function(user){
-            data = {
-                user : user,
-                POSTS : game,
-                FRIENDS : invitation,
-                MATCH : 30, 
-                "status"  : true
-            }
-            res.json(data);
+            models.sequelize.query(user, {type:models.sequelize.QueryTypes.SELECT}).then(function(user){
+                models.sequelize.query(sports, {type:models.sequelize.QueryTypes.SELECT}).then(function(sports){
+                    models.sequelize.query(gallery, {type:models.sequelize.QueryTypes.SELECT}).then(function(gallery){
+                        data = {
+                            USER : user,
+                            gallery:gallery,
+                            SPORTS:sports,
+                            POSTS : game[0].POSTS,
+                            FRIENDS : invitation[0].FRIENDS,
+                            MATCH : 30,
+                            "status" : true
+                        }
+                        res.json(data)
+                    });
+                })
             })
         })
     })
 };
-

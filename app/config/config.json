@@ -1,20 +1,20 @@
 {
     "development": {
-        "database": "wego_db",
+        "database": "wego_database",
         "dialect": "mysql",
-        "host":"mysql://mysql:3306/",
-        "username": "wego_user",                
-        "password": "root",       
+        "host":"localhost",
+        "port":"3306",
+        "username": "root",                
+        "password": "",       
         "timezone": "+00:00",        
         "secret": "xoIalodZ/nWwWzFinhs=",
         "distance_threshold_for_location_change": 1000,
         "region": "ap-south-1"
     },
     "test": {
-        "username": "wego_user",
+        "username": "wego_db",
         "password": "wego@123",
-        "database": "wego_db",
-        "port":"3306",
+        "database": "wego_database",
         "host": "appsontechnologies.in",
         "timezone": "+00:00",
         "dialect": "mysql",

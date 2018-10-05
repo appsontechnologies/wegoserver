@@ -1,5 +1,4 @@
 module.exports = (sequelize, DataTypes) => {
-    console.log("game");
     return sequelize.define('game', {
         game_id : {
             type: DataTypes.INTEGER(50).UNSIGNED,

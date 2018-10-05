@@ -1,12 +1,12 @@
 var exports = module.exports = {}
 
 exports.registrationClub = function(req,res,models,app) {
-    if(req.body.club_name==undefined || req.body.club_name==null){
-        res.status(400).json({error_msg:"club_name not found in body"})
+    if(req.body.user_id==undefined || req.body.user_id==null){
+        res.status(400).json({error_msg:"user_id not found in body"})
         return;
     }
-    if(req.body.address==undefined || req.body.address==null){
-        res.status(400).json({error_msg:"address not found in body"})
+    if(req.body.club_name==undefined || req.body.club_name==null){
+        res.status(400).json({error_msg:"club_name not found in body"})
         return;
     }
     if(req.body.number==undefined || req.body.number==null){
@@ -17,61 +17,48 @@ exports.registrationClub = function(req,res,models,app) {
         res.status(400).json({error_msg:"postal_code not found in body"})
         return;
     }
-    if(req.body.name_holder==undefined || req.body.name_holder==null){
-        res.status(400).json({error_msg:"name_holder not found in body"})
-        return;
-    }
-    if(req.body.account_to_receive_payments==undefined || req.body.account_to_receive_payments==null){
-        res.status(400).json({error_msg:"account_to_receive_payments not found in body"})
-        return;
-    }
-    if(req.body.general_monthly_fee==undefined || req.body.general_monthly_fee==null){
-        res.status(400).json({error_msg:"general_monthly_fee not found in body"})
-        return;
-    }
-    if(req.body.sports_name==undefined || req.body.sports_name==null){
-        res.status(400).json({error_msg:"sports_name not found in body"})
-        return;
-    }
-    if(req.body.monthly_fee==undefined || req.body.monthly_fee==null){
-        res.status(400).json({error_msg:"monthly_fee not found in body"})
-        return;
-    }
-    if(req.body.sex==undefined || req.body.sex==null){
-        res.status(400).json({error_msg:"sex not found in body"})
-        return;
-    }
-    if(req.body.changing_rooms==undefined || req.body.changing_rooms==null){
-        res.status(400).json({error_msg:"changing_rooms not found in body"})
-        return;
-    }
-    if(req.body.Value_per_hour==undefined || req.body.Value_per_hour==null){
-        res.status(400).json({error_msg:"Value_per_hour not found in body"})
-        return;
-    }
     var data = {
+        user_id:req.body.user_id,
         club_name:req.body.club_name,
         address:req.body.address,
         number:req.body.number,
         postal_code:req.body.postal_code,
         name_holder:req.body.name_holder,
-        general_monthly_fee:req.body.general_monthly_fee,
+        club_lat:req.body.club_lat,
+        club_long:req.body.club_long,
+        general_monthly_fee:req.body.generaly_monthy_free,
         account_to_receive_payments:req.body.account_to_receive_payments
     };
-    models.clubs.create(data).then(function(club, created){
-        var sport = {
-            sports_name: req.body.sports_name,
-            Value_per_hour: req.body.Value_per_hour,
-            changing_rooms: req.body.changing_rooms,
-            monthly_fee: req.body.monthly_fee,
-            sex: req.body.sex,
+    models.clubs.create(data).then(function(club, created) {
+        console.log("next functon call--->");
+        var stadium = req.body.add_sports;
+        var stadiums = [];
+        for (var i = 0; i < stadium.length; i++){
+            stadiums[i] = {};
+            stadiums[i].sports_name = stadium[i].sports_name;
+            stadiums[i].sex = stadium[i].sex;
+            stadiums[i].monthy_free = stadium[i].monthy_free;
+            stadiums[i].value_per_hours = stadium[i].value_per_hours;
+            stadiums[i].changing_room = stadium[i].changing_room;
+            
+            console.log(stadiums[i]);
+
+            // console.log("stadium-->",stadiums[i].sports_name);
+            // console.log("stadium-->",stadiums[i].sex);
         }
-        models.sports.create(sport).then(function(sport, err){
-            if(sport) {
-                res.json({"success" : true, "msg":"club registration successfully"});
-                return;
-            }
-        })
+        // var sport = {
+        //     sex: req.body.sex,
+        //     sports_name: req.body.sports_name,
+        //     monthly_fee: req.body.monthly_fee,
+        //     Value_per_hour: req.body.Value_per_hour,
+        //     changing_rooms: req.body.changing_rooms,
+        // }
+        // models.sports.create(sport).then(function(sport, err){
+        //     if(sport) {
+        //         res.json({"success" : true, "msg":"club registration successfully"});
+        //         return;
+        //     }
+        // })
     }).catch(function(err) {
         console.log(err);
         res.status(400).json({error_msg: "Something want wrong"});

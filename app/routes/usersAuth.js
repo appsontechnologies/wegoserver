@@ -3,15 +3,12 @@ var facebook = require('passport-facebook');
  var Strategy = require('passport-facebook').Strategy;
 module.exports = function(app, passport, models, sequelize ) {
     var Models = models;
-   // console.log("Models-5->", Models);
-
+    
     app.use('/wegoplay/api/users', function(req, res, next){
         console.log("Base url: " + req.baseUrl);
         next();
     })
     
-    // register authenticate API
-    //https://www.djamware.com/post/58eba06380aca72673af8500/node-express-mongoose-and-passportjs-rest-api-authentication
     // register authenticate API
     app.post('/wegoplay/api/users/register', passport.authenticate('local-register', { session: false}),
     function(req, res){
@@ -31,8 +28,8 @@ module.exports = function(app, passport, models, sequelize ) {
         //console.log(req);
        var data = {
             user_id : req.body.user_id,
-            lat : req.body.lat,
-            long : req.body.long,
+            latitude : req.body.lat,
+            longitude : req.body.long,
             email : req.body.email,
             number: req.body.number,
             login_by: req.body.login_by,
@@ -51,8 +48,6 @@ module.exports = function(app, passport, models, sequelize ) {
             fcm_token : req.body.fcm_token,
             device_type : req.body.device_type
         }
-        console.log("NormalLogin-->",data);
-
         console.log('Social Uniq id - ',data.social_unique_id);
        // Models.users.create(data).then(function(created){
            if(data.social_unique_id==null || data.social_unique_id==''){

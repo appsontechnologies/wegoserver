@@ -8,11 +8,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         user_id: {
             type: DataTypes.INTEGER(50).UNSIGNED,
-            allowNull: false,
+            allowNull: true
         },
         club_id: {
             type: DataTypes.STRING(255),
-            allowNull: false,
+            allowNull: true
         },
         stadium_lat: {
             type: DataTypes.STRING(255),
@@ -35,6 +35,10 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true
         },
         postal_code: {
+            type: DataTypes.STRING(255),
+            allowNull: true
+        },
+        court: {
             type: DataTypes.STRING(255),
             allowNull: true
         }

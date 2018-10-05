@@ -1,5 +1,4 @@
 module.exports = (sequelize, DataTypes) => {
-    console.log("DATABASE CREATED============>")
     return sequelize.define('clubs', {
         club_id: {
             type: DataTypes.INTEGER(50).UNSIGNED,
@@ -9,25 +8,23 @@ module.exports = (sequelize, DataTypes) => {
         },
         club_name: {
             type: DataTypes.STRING(255),
-            allowNull: true,
-            defaultValue: ''
+            allowNull: true
         },
         stadium_id: {
-            type: DataTypes.INTEGER(50).UNSIGNED,
-            allowNull: false,
+            type: DataTypes.STRING(255),
+            allowNull: true
         },
         user_id: {
-            type: DataTypes.INTEGER(50).UNSIGNED,
-            allowNull: false,
+            type: DataTypes.STRING(255),
+            allowNull: true
         },
         address: {
             type: DataTypes.STRING(255),
-            allowNull: true,
-            defaultValue: ''
+            allowNull: true
         },
         number: {
             type: DataTypes.STRING(255),
-            allowNull: false
+            allowNull: true
           },
         club_image: {
             type: DataTypes.STRING(255),
@@ -49,9 +46,9 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(255),
             allowNull: true
           },
-        name_holder:{
+        name_holder: {
             type:DataTypes.STRING(255),
-            allowNull:true
+            allowNull: true
         },
         general_monthly_fee: {
             type: DataTypes.STRING(255),

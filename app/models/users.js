@@ -43,8 +43,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     date_of_birth: {
-    type: DataTypes.STRING(255),
-    allowNull: true
+      type: DataTypes.STRING(255),
+      allowNull: true
     },
     city: {
       type: DataTypes.STRING(255),
@@ -75,7 +75,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     profile_picture_url: {
-      type: DataTypes.BLOB('LONG'),
+      type: DataTypes.STRING(255),
       allowNull: true
     },
     postal_code: {
@@ -106,11 +106,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    lat: {
+    latitude: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    long: {
+    longitude: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
