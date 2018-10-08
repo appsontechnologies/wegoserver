@@ -27,20 +27,13 @@ exports.GetAllUserDetails = function (req, res, models, app) {
 }
 
 //forgot_password function
-exports.forgotPassword = function (req, res, models, app) {
-    if (req.body.email == undefined || req.body.email == null) {
-        res.status(400).json({ error_msg: "no email address provided" })
-        return;
-    }
-    models.users.findOne({ where: { email: req.body.email } }).then(function (user) {
-        console.log("user email", user.email);
-        if (user == undefined || user == null) {
-            res.status(400).json({ error_msg: "No user found for provided Email Address" });
-            return;
-        }
-        
-        var newpassword = this.generatePassword();
-        models.users.update({ password: newpassword }, { where: { email: user.email } })
+exports.forgotPassword = function(req, res, models, app) {
+    var  email_id = req.body.email
+    models.users.findOne({where:{email:email_id}}).then(function(user){
+        if(user!=null){
+            console.log("email--->", user.email);
+            var newpassword = this.generatePassword();
+            models.users.update({ password: newpassword }, { where: { email: user.email }})
             .then(function () {
                 var smtpTransport = nodemailer.createTransport({
                     service: 'gmail',
@@ -60,20 +53,22 @@ exports.forgotPassword = function (req, res, models, app) {
                 smtpTransport.sendMail(mailOptions, (error, info) => {
                     if (error) {
                         console.log('error', error);
-                        res.json({ status: false, message: "Error in sending mail." });
+                        res.json({ success: false, message: "Error in sending mail." });
                         return;
                     } else {
-                        res.json({ status: true, message: "Thank you! An email has been sent to " + user.email + " email id. Please check your inbox." });
+                        res.json({ success: true, message: "Thank you! An email has been sent to " + user.email + " email id. Please check your inbox." });
                         return;
                     }
                 });
             })
-    }).catch(function (err) {
-        console.log(err);
-        res.status(400).json({ error_msg: "Something want wrong" });
-        return;
-    });
+        }
+        else {
+            res.json({success : false, message:"Invalid email_id for user."});
+            return;
+        }
+    })
 };
+
 
 //generate Password function
 generatePassword = function () {
@@ -233,7 +228,7 @@ exports.getProfileDetailById = function (req, res, models, app) {
                             POSTS : game[0].POSTS,
                             FRIENDS : invitation[0].FRIENDS,
                             MATCH : 30,
-                            "status" : true
+                            "success" : true
                         }
                         res.json(data)
                     });

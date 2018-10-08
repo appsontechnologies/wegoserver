@@ -79,7 +79,8 @@ module.exports = function (passport, models, app) {
 
                         Models.users.create(data).then(function (newUser, created) {
                             var base64Str = req.body.encoded_string;
-                            // var path = 'http://appsontechnologies.in/wegoplay/assets/gallery/';
+                            // var path = './http://appsontechnologies.in/wegoplay/assets/gallery/';
+                            // var path = 'https://wegoserver.herokuapp.com/wegoserver/upload/';
                             var path = './upload/';
                             var img = base64ToImage(base64Str, path);
                             console.log("path----->", path+img.fileName);

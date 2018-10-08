@@ -6,6 +6,10 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
             autoIncrement: true
         },
+        game_name: {
+            type: DataTypes.STRING(255),
+            allowNull: true
+        },
         sports_id: {
             type: DataTypes.INTEGER(50).UNSIGNED,
             allowNull: false,

@@ -14,7 +14,7 @@ module.exports = function(app, passport, models, sequelize ) {
     function(req, res){
         if(req.user!=null) {
            //res.json(req.user.user_id);
-           res.json({"user_id":req.user.user_id,"success":true,msg:"User Registration Successfully"});
+           res.json({"user_id":req.user.user_id, "login_by":req.user.login_by, "success":true,msg:"User Registration Successfully"});
            return;
         } 
         else  {

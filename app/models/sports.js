@@ -31,10 +31,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(255),
             allowNull: true
         },
-        count: {
-            type: DataTypes.STRING(255),
-            allowNull: true
-        },
         selected_sport: {
             type: DataTypes.STRING(255),
             allowNull: true

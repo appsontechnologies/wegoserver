@@ -38,10 +38,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(255),
             allowNull: true
         },
-        court: {
+        number_of_player: {
             type: DataTypes.STRING(255),
             allowNull: true
         }
+
     }, {
         tableName: 'stadium'
     });

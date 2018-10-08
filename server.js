@@ -44,6 +44,7 @@ app.use(function (req, res, next) {
     if(allowedOrigins.indexOf(origin) > -1){
       res.setHeader('Access-Control-Allow-Origin', '*');
     }
+    res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, OPTIONS','POST','PUT');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, token, source, deviceid');
     res.header('Access-Control-Allow-Credentials', true);
