@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1003527961315",
+    "firebase_url": "https://we-go-play.firebaseio.com",
+    "project_id": "we-go-play",
+    "storage_bucket": "we-go-play.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1003527961315:android:24c0334140ce5e77",
+        "android_client_info": {
+          "package_name": "com.wegoplay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1003527961315-vumbj8d9jcct5134hj613l397fsqptl0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wegoplay",
+            "certificate_hash": "a4644fc1965dc1ec69dad7b538937e425496e61f"
+          }
+        },
+        {
+          "client_id": "1003527961315-adgigjelu3gnirhuo3p9tjv83ndh45ac.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzgjLABWnkW1O9MnPbCRiezhRSN--z2Ls"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1003527961315-adgigjelu3gnirhuo3p9tjv83ndh45ac.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
